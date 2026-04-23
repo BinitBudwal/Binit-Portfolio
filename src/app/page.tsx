@@ -1,13 +1,40 @@
+import { Button } from "@/components/ui/button"
+import { Download } from "lucide-react" // This adds a small icon
+
 export default function Home() {
   return (
-    <main className="flex min-h-screen flex-col items-center justify-center bg-black text-white p-24">
-      <div className="z-10 max-w-5xl w-full items-center justify-between font-mono text-sm lg:flex text-center">
-        <h1 className="text-6xl font-bold tracking-tighter">BINIT BUDWAL</h1>
-        <p className="mt-4 text-xl text-zinc-400">Computer Science @ UofM</p>
+    <main className="min-h-screen bg-black text-white selection:bg-zinc-800 flex flex-col items-center justify-center p-6">
+      {/* Subtle background detail */}
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_20%,#27272a,transparent)]" />
+
+      <nav className="fixed top-0 w-full max-w-5xl flex justify-end p-8 z-20">
+        {/* The Resume Button */}
+        <a href="/Binit_Budwal_Resume.pdf" target="_blank" rel="noopener noreferrer">
+          <Button variant="outline" className="border-zinc-800 bg-transparent text-white hover:bg-white hover:text-black transition-all gap-2">
+            <Download className="w-4 h-4" />
+            Resume
+          </Button>
+        </a>
+      </nav>
+
+      <div className="relative z-10 flex flex-col items-center text-center space-y-4">
+        <h1 className="text-6xl md:text-8xl font-bold tracking-tighter">
+          Binit Budwal
+        </h1>
+        
+        <div className="flex flex-col items-center space-y-2">
+          <p className="text-zinc-400 text-lg md:text-xl font-mono uppercase tracking-widest">
+            Computer Science @ UofM
+          </p>
+          <p className="max-w-[500px] text-zinc-500 text-sm">
+            Specializing in Cybersecurity & Network Infrastructure.
+          </p>
+        </div>
       </div>
-      <div className="mt-10 px-6 py-2 border border-zinc-700 rounded-full text-zinc-500 animate-pulse">
-        Portfolio Under Construction
-      </div>
+
+      <footer className="fixed bottom-8 text-zinc-600 text-xs tracking-widest uppercase">
+        Winnipeg, MB • 2026
+      </footer>
     </main>
-  );
+  )
 }
