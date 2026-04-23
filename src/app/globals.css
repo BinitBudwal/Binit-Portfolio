@@ -3,7 +3,14 @@
 @import "shadcn/tailwind.css";
 
 @custom-variant dark (&:is(.dark *));
+* {
+  cursor: none !important;
+}
 
+/* Optional: Bring it back for links/buttons if you prefer */
+a, button {
+  cursor: none;
+}
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
