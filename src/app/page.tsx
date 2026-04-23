@@ -9,7 +9,7 @@ export default function Home() {
 
       <nav className="fixed top-0 w-full max-w-5xl flex justify-end p-8 z-20">
         {/* The Resume Button */}
-        <a href="/Binit_Budwal_Resume.pdf" target="_blank" rel="noopener noreferrer">
+        <a href="/BinitBudwal_Resume.pdf" target="_blank" rel="noopener noreferrer">
           <Button variant="outline" className="border-zinc-800 bg-transparent text-white hover:bg-white hover:text-black transition-all gap-2">
             <Download className="w-4 h-4" />
             Resume
