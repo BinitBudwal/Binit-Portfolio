@@ -22,22 +22,43 @@ export default function StatusGroup() {
       setTime(now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }).toUpperCase())
     }
 
-    const fetchWeather = async () => {
+   const fetchWeather = async () => {
       const key = process.env.NEXT_PUBLIC_WEATHER_API_KEY
       if (!key) {
         setTemp("CONFIG_ERROR")
         return
       }
-      try {
-        // Fetching for Winnipeg (can be your city name or lat,long)
-        const res = await fetch(`https://api.weatherapi.com/v1/current.json?key=${key}&q=Winnipeg&aqi=no`)
-        const data = await res.json()
-        
-        if (data.current) {
-          setTemp(`${Math.round(data.current.temp_c)}°C`)
+
+      const getWeather = async (query: string) => {
+        try {
+          const res = await fetch(
+            `https://api.weatherapi.com/v1/current.json?key=${key}&q=${query}&aqi=no`
+          )
+          const data = await res.json()
+          if (data.current) {
+            setTemp(`${Math.round(data.current.temp_c)}°C`)
+          }
+        } catch (e) {
+          setTemp("STATION_OFFLINE")
         }
-      } catch (e) {
-        setTemp("STATION_OFFLINE")
+      }
+
+      // Check if browser supports Geolocation
+      if ("geolocation" in navigator) {
+        navigator.geolocation.getCurrentPosition(
+          (position) => {
+            // Success: Use actual coordinates
+            const { latitude, longitude } = position.coords
+            getWeather(`${latitude},${longitude}`)
+          },
+          () => {
+            // User denied or error: Fallback to Winnipeg (or any default)
+            getWeather("Winnipeg")
+          }
+        );
+      } else {
+        // Browser doesn't support geolocation: Fallback
+        getWeather("Winnipeg")
       }
     }
 
