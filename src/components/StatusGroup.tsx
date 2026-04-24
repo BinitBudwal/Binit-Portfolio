@@ -5,7 +5,8 @@ import { useEffect, useState } from "react"
 export default function StatusGroup() {
   const [time, setTime] = useState<string>("")
   const [date, setDate] = useState<string>("")
-  const [temp, setTemp] = useState<string>("FETCHING...")
+  const [temp, setTemp] = useState<string>("SYSTEM_SYNC...")
+  const [location, setLocation] = useState<string>("LOCAL_NODE")
 
   useEffect(() => {
     const updateDateTime = () => {
@@ -22,7 +23,7 @@ export default function StatusGroup() {
       setTime(now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }).toUpperCase())
     }
 
-   const fetchWeather = async () => {
+    const fetchWeather = async () => {
       const key = process.env.NEXT_PUBLIC_WEATHER_API_KEY
       if (!key) {
         setTemp("CONFIG_ERROR")
@@ -35,29 +36,33 @@ export default function StatusGroup() {
             `https://api.weatherapi.com/v1/current.json?key=${key}&q=${query}&aqi=no`
           )
           const data = await res.json()
-          if (data.current) {
+          
+          if (data.current && data.location) {
             setTemp(`${Math.round(data.current.temp_c)}°C`)
+            
+            // Logic to prioritize the main city name
+            // Often, data.location.name is the city, but if it feels too specific, 
+            // you can use data.location.region as a fallback if name is very long.
+            const cityName = data.location.name.toUpperCase()
+            setLocation(cityName)
           }
         } catch (e) {
-          setTemp("STATION_OFFLINE")
+          setTemp("OFFLINE")
+          setLocation("UNKNOWN_NODE")
         }
       }
 
-      // Check if browser supports Geolocation
       if ("geolocation" in navigator) {
         navigator.geolocation.getCurrentPosition(
           (position) => {
-            // Success: Use actual coordinates
             const { latitude, longitude } = position.coords
             getWeather(`${latitude},${longitude}`)
           },
           () => {
-            // User denied or error: Fallback to Winnipeg (or any default)
-            getWeather("Winnipeg")
+            getWeather("Winnipeg") // Privacy fallback
           }
-        );
+        )
       } else {
-        // Browser doesn't support geolocation: Fallback
         getWeather("Winnipeg")
       }
     }
@@ -69,22 +74,27 @@ export default function StatusGroup() {
   }, [])
 
   return (
-    <div className="fixed top-0 left-0 p-8 z-50 font-mono pointer-events-none select-none">
+    <div className="fixed top-0 left-0 p-4 md:p-8 z-50 font-mono pointer-events-none select-none">
       <div className="flex flex-col gap-0.5">
-        <div className="flex items-center gap-4 text-[11px] tracking-[0.15em] text-zinc-400 dark:text-zinc-500">
+        {/* Time and Date */}
+        <div className="flex flex-col md:flex-row md:items-center gap-1 md:gap-4 text-[9px] md:text-[11px] tracking-[0.15em] text-zinc-400 dark:text-zinc-500">
           <span className="opacity-80">{date}</span>
           <span className="text-zinc-900 dark:text-zinc-100 font-bold">{time}</span>
         </div>
-        <div className="flex items-center gap-3 text-[9px] tracking-[0.2em] text-zinc-500 dark:text-zinc-600">
+        
+        {/* Weather and Location */}
+        <div className="flex items-center gap-3 text-[8px] md:text-[9px] tracking-[0.2em] text-zinc-500 dark:text-zinc-600">
           <div className="flex items-center gap-1.5">
             <span className="relative flex h-1.5 w-1.5">
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span>
               <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-blue-500"></span>
             </span>
-            <span>{temp}  WPG_STATION</span>
+            <span>{temp}  {location}</span>
           </div>
-          <span className="opacity-30">|</span>
-          <div className="flex items-center gap-1.5">
+          
+          <span className="opacity-30 hidden sm:inline">|</span>
+          
+          <div className="hidden sm:flex items-center gap-1.5">
             <span className="h-1 w-1 rounded-full bg-green-500/50"></span>
             <span>SECURE_SESSION</span>
           </div>
