@@ -74,7 +74,7 @@ export default function StatusGroup() {
   }, [])
 
   return (
-    <div className="fixed top-0 left-0 p-4 md:p-8 z-50 font-mono pointer-events-none select-none">
+    <div className="z-50 font-mono pointer-events-none select-none">
       <div className="flex flex-col gap-0.5">
         {/* Time and Date */}
         <div className="flex flex-col md:flex-row md:items-center gap-1 md:gap-4 text-[9px] md:text-[11px] tracking-[0.15em] text-zinc-400 dark:text-zinc-500">
