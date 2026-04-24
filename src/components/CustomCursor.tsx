@@ -8,13 +8,13 @@ export default function CustomCursor() {
 
   // Spring settings for the "lag" effect
   // stiffness: how fast it snaps, damping: how much it wobbles
-  const springConfig = { stiffness: 150, damping: 20 };
+  const springConfig = { stiffness: 400, damping: 30 };
   
   const mainX = useSpring(0, springConfig);
   const mainY = useSpring(0, springConfig);
   
-  const trailingX = useSpring(0, { stiffness: 100, damping: 25 });
-  const trailingY = useSpring(0, { stiffness: 100, damping: 25 });
+  const trailingX = useSpring(0, { stiffness: 200, damping: 25 });
+  const trailingY = useSpring(0, { stiffness: 200, damping: 25 });
 
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
