@@ -1,29 +1,33 @@
 "use client"
 
 import { motion } from "framer-motion"
-import { useEffect, useState } from "react"
+import { useEffect, useState, useRef } from "react"
 
 export default function Background() {
   const [stars, setStars] = useState<{ id: number; top: string; left: string; duration: number; delay: number }[]>([])
+  const hasGenerated = useRef(false) // This acts as a permanent lock
 
   useEffect(() => {
-    // Generate 6 shooting stars with random positions and timings
+    // If we've already generated stars, don't do it again
+    if (hasGenerated.current) return;
+    
     const newStars = Array.from({ length: 6 }).map((_, i) => ({
       id: i,
-      top: `${Math.random() * 40}%`, // Keep them in the upper half
+      top: `${Math.random() * 40}%`, 
       left: `${Math.random() * 100}%`,
       duration: Math.random() * 2 + 1,
       delay: Math.random() * 10,
     }))
+    
     setStars(newStars)
+    hasGenerated.current = true // Lock the generation
   }, [])
 
   return (
     <div className="fixed inset-0 z-0 overflow-hidden pointer-events-none" suppressHydrationWarning>
-      {/* The Bluish Sunrise Hue at the bottom */}
+      {/* Sunrise Hue */}
       <div className="absolute bottom-0 left-0 right-0 h-[40vh] bg-gradient-to-t from-blue-900/20 via-blue-900/5 to-transparent dark:from-blue-900/30 dark:via-blue-900/10" />
       
-      {/* Shooting Stars */}
       {stars.map((star) => (
         <motion.div
           key={star.id}
@@ -39,7 +43,7 @@ export default function Background() {
             duration: star.duration,
             delay: star.delay,
             repeat: Infinity,
-            repeatDelay: Math.random() * 15,
+            repeatDelay: star.delay + 2,
             ease: "linear",
           }}
         />
