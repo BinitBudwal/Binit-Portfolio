@@ -5,14 +5,19 @@ import { Download, Mail, Moon, Sun } from "lucide-react"
 import { FaGithub, FaLinkedin } from "react-icons/fa"
 import { useTheme } from "next-themes"
 import { useEffect, useState } from "react"
-import { motion } from "framer-motion"
+import { motion, useScroll, useSpring } from "framer-motion"
 import Background from "@/components/Background"
 import StatusGroup from "@/components/StatusGroup"
 import Hero from "@/components/Hero"
+import TechMarquee from "@/components/TechMarquee"
+
 
 export default function Home() {
+  // Inside your Home function
+  const { scrollYProgress } = useScroll();
   const { theme, setTheme } = useTheme()
   const [mounted, setMounted] = useState(false)
+  
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -27,7 +32,10 @@ export default function Home() {
 
   return (
     <main className="min-h-screen bg-white dark:bg-black text-black dark:text-white selection:bg-blue-500/30 selection:text-blue-200 flex flex-col items-center justify-center p-6 relative font-mono overflow-hidden">
-      
+      <motion.div 
+  className="fixed top-0 left-0 right-0 h-[1px] bg-blue-500 origin-left z-[100]"
+  style={{ scaleX: scrollYProgress }}
+/>
       <Background />
       
       {/* Film Grain / Noise Overlay */}
@@ -103,6 +111,18 @@ export default function Home() {
       </header>
       
       <Hero />
+      {/* --- ADD THIS SECTION --- */}
+      <div className="w-full mt-32 mb-8 flex flex-col items-center">
+        <div className="flex items-center gap-2 mb-4">
+          <div className="h-[1px] w-8 bg-zinc-800" />
+          <span className="text-[10px] uppercase tracking-[0.4em] text-zinc-500 font-bold">
+            Technical Stack & Tooling
+          </span>
+          <div className="h-[1px] w-8 bg-zinc-800" />
+        </div>
+        <TechMarquee />
+      </div>
+      
 
       <footer className="fixed bottom-8 text-zinc-400 dark:text-zinc-800 text-xs tracking-widest uppercase">
         Winnipeg, MB // 2026

@@ -7,6 +7,18 @@
   cursor: none !important;
 }
 
+@theme inline {
+  /* ... your variables ... */
+  
+  /* Try 30s for a smoother, less "rushed" feel with your longer list */
+  --animate-marquee: marquee 30s linear infinite;
+
+  @keyframes marquee {
+    from { transform: translateX(0); }
+    /* Moving to -33.33% because we now have 3 sets of the same content */
+    to { transform: translateX(-33.333%); }
+  }
+}
 /* Optional: Bring it back for links/buttons if you prefer */
 a, button {
   cursor: none;
