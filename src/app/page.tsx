@@ -28,15 +28,16 @@ export default function Home() {
   
   <Background />
 
-  {/* Unified Top Header: This aligns both sides perfectly */}
+  {/* Unified Top Header: Responsive and Balanced */}
   <header className="fixed top-0 left-0 w-full z-50 flex justify-center pointer-events-none">
-    <div className="w-full max-w-7xl flex justify-between items-start p-6 md:p-10 pointer-events-auto">
+    <div className="w-full max-w-7xl flex justify-between items-start p-4 md:p-10 pointer-events-auto">
       
-      {/* Left Side: Status */}
+      {/* Left Side: Status (City/Weather/Time) */}
       <StatusGroup />
 
-      {/* Right Side: Navigation */}
+      {/* Right Side: Navigation & Socials */}
       <nav className="flex items-center gap-1 md:gap-3">
+        {/* Theme Toggle */}
         <Button 
           variant="ghost" 
           size="icon" 
@@ -47,6 +48,7 @@ export default function Home() {
           <span className="sr-only">Toggle theme</span>
         </Button>
 
+        {/* Social Links Group */}
         <div className="flex items-center">
           <a href="https://github.com/BinitBudwal" target="_blank" rel="noopener noreferrer">
             <Button variant="ghost" size="icon" className="text-zinc-500 hover:text-black dark:hover:text-white">
@@ -65,13 +67,14 @@ export default function Home() {
           </a>
         </div>
 
-        <a href="/BinitBudwal_Resume.pdf" target="_blank" rel="noopener noreferrer" className="hidden sm:block">
+        {/* Responsive Resume Button: Icon only on mobile, text added on md screens */}
+        <a href="/BinitBudwal_Resume.pdf" target="_blank" rel="noopener noreferrer" className="ml-1">
           <Button 
             variant="outline" 
-            className="border-zinc-200 dark:border-zinc-800 bg-transparent text-black dark:text-white hover:bg-black dark:hover:bg-white hover:text-white dark:hover:text-black transition-all gap-2"
+            className="border-zinc-200 dark:border-zinc-800 bg-transparent text-black dark:text-white hover:bg-black dark:hover:bg-white hover:text-white dark:hover:text-black transition-all px-2 md:px-4 gap-2"
           >
             <Download className="w-4 h-4" />
-            Resume
+            <span className="hidden md:inline text-xs uppercase tracking-widest">Resume</span>
           </Button>
         </a>
       </nav>
