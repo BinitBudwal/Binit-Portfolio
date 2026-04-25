@@ -14,11 +14,15 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
+// Inside layout.tsx "metadata" object
 export const metadata: Metadata = {
-  title: "Binit Budwal",
-  description: "Computer Science @ UofM",
+  title: "Binit Budwal | CS @ UofM",
+  description: "Portfolio of Binit Budwal - Computer Science Student & Software Developer",
+  icons: {
+    icon: "/favicon.ico", // Standard favicon
+    apple: "/apple-icon.png", // For iPhone home screens
+  },
 };
-
 export default function RootLayout({
   children,
 }: Readonly<{
